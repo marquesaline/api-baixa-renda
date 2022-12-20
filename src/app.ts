@@ -6,7 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 
 import router from './routes';
 
-const PORT = process.env.PORT || 3000;
+// const PORT = process.env.PORT || 3000;
 
 class App {
     public app: express.Application;
@@ -41,17 +41,17 @@ class App {
         //this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
     }
 
-    public async start() {
-        try {
-            this.app.listen(PORT, () => {
-                console.log(`Server listening on port ${PORT}`);
-            });
-        } catch (error) {
-            console.error(error);
-            process.exit(1);
-        }
+    // public async start() {
+    //     try {
+    //         this.app.listen(PORT, () => {
+    //             console.log(`Server listening on port ${PORT}`);
+    //         });
+    //     } catch (error) {
+    //         console.error(error);
+    //         process.exit(1);
+    //     }
 
-    }
+    // }
 }
 
 export default App;
