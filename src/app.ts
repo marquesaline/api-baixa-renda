@@ -5,6 +5,7 @@ import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 
 import router from './routes';
+import db_connection from './database/init';
 
 // const PORT = process.env.PORT || 3000;
 
@@ -13,6 +14,8 @@ class App {
 
     constructor () {
         this.app = express();
+
+        db_connection.sync();
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cookieParser());
         this.app.use(cors({
