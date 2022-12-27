@@ -15,7 +15,7 @@ class IndexServices {
         }
     }
 
-    public async update(data: IndexInput, id: number) {
+    public async update(id: number, data: IndexInput) {
         try {
             const index = await Index.findOne({ where: { id } });
 

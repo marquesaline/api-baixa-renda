@@ -31,6 +31,24 @@ class IndexController {
            .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
     }
 
+    async update(req: Request, res: Response) {
+        const { id } = req.params;
+        const index: IndexInput = req.body;
+
+        IndexServices.update(parseInt(id), index)
+            .then(index => Helper.sendResponse(res, StatusCodes.ACCEPTED, index, 'Index successfully updated'))
+            .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
+
+    }
+
+    async delete(req: Request, res: Response) {
+        const { id } = req.params;
+
+        IndexServices.delete(parseInt(id))
+            .then(index => Helper.sendResponse(res, StatusCodes.OK, null, 'Index successfully deleted'))
+            .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
+    }
+
     
 
 }

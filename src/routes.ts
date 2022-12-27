@@ -15,4 +15,8 @@ router.get('/indexes/:id', IndexController.getById);
 
 router.post('/indexes', IndexController.create);
 
+router.put('/indexes/:id', IndexController.update);
+
+router.delete('/indexes/:id', IndexController.delete);
+
 export default router;
