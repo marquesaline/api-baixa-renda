@@ -11,4 +11,8 @@ router.get('/', (req, res) => {
 
 router.get('/indexes', IndexController.getAll);
 
+router.get('/indexes/:id', IndexController.getById);
+
+router.post('/indexes', IndexController.create);
+
 export default router;

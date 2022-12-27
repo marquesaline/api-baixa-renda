@@ -10,6 +10,6 @@ export interface IndexAttributes {
     updatedAt?: Date;
 }
 
-export interface IndexInput extends Optional<IndexAttributes, 'id' > {}
+export interface IndexInput extends Optional<IndexAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
 export interface IndexOuput extends Required<IndexAttributes> {}
