@@ -2,7 +2,7 @@ import { Response } from 'express';
 
 class Helper {
 
-    sendResponse = (res: Response, statusCode: number, message?: string, data?: any) => {
+    sendResponse = (res: Response, statusCode: number, data?: any, message?: string,) => {
         res
             .status(statusCode)
             .json({

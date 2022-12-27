@@ -1,7 +1,7 @@
 import { Index } from '../database/models/index.model';
 import { IndexInput } from '../interfaces/index.interface';
 
-class IndexService {
+class IndexServices {
     
     constructor() {}
 
@@ -85,4 +85,4 @@ class IndexService {
     }
 }
 
-export default new IndexService();
+export default new IndexServices();

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import IndexController from './controllers/index.controller';
 
 const router = Router();
 
@@ -8,6 +9,6 @@ router.get('/', (req, res) => {
         .json('Hello World!');
 });
 
-router.get('/indices')
+router.get('/indexes', IndexController.getAll);
 
 export default router;
