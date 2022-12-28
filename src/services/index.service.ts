@@ -1,7 +1,7 @@
 import { Index } from '../database/models/index.model';
 import { IndexInput } from '../interfaces/index.interface';
 
-class IndexService {
+class IndexServices {
     
     constructor() {}
 
@@ -15,12 +15,12 @@ class IndexService {
         }
     }
 
-    public async update(data: IndexInput, id: number) {
+    public async update(id: number, data: IndexInput) {
         try {
             const index = await Index.findOne({ where: { id } });
 
             if(!index) {
-                return false;
+                return 'Index not found';
             }
 
             const updatedIndex = await index.update(data);
@@ -46,7 +46,7 @@ class IndexService {
             const index = await Index.findOne({ where: { id } });
 
             if(!index) {
-                return false;
+                return 'Index not found';
             }
 
             return index;
@@ -61,10 +61,10 @@ class IndexService {
             const index = await Index.findOne({ where: { yearmonth } });
 
             if(!index) {
-                return false;
+                return 'Index not found';
             }
-
             return index;
+
         } catch(error) {
             console.log(error);
         }
@@ -75,14 +75,15 @@ class IndexService {
             const index = await Index.destroy({ where: { id } });
 
             if(!index) {
-                return false;
+                return 'Index not found';
             }
 
-            return true;
+            return 'Index successfully deleted';
+
         } catch (error) {
             console.log(error);
         }
     }
 }
 
-export default new IndexService();
+export default new IndexServices();
