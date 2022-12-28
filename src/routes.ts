@@ -13,6 +13,8 @@ router.get('/indexes', IndexController.getAll);
 
 router.get('/indexes/:id', IndexController.getById);
 
+router.get('/index/:yearmonth', IndexController.getByYearMonth);
+
 router.post('/indexes', IndexController.create);
 
 router.put('/indexes/:id', IndexController.update);

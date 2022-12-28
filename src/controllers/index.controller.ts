@@ -22,6 +22,14 @@ class IndexController {
             .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
     }
 
+    async getByYearMonth(req: Request, res: Response) {
+        const { yearmonth } = req.params;
+
+        IndexServices.getByYearMonth(parseInt(yearmonth))
+            .then(index => Helper.sendResponse(res, StatusCodes.OK, index))
+            .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
+    }
+
     async create(req: Request, res: Response) {
 
         const index: IndexInput = req.body;
@@ -45,7 +53,7 @@ class IndexController {
         const { id } = req.params;
 
         IndexServices.delete(parseInt(id))
-            .then(index => Helper.sendResponse(res, StatusCodes.OK, null, 'Index successfully deleted'))
+            .then(index => Helper.sendResponse(res, StatusCodes.OK, index))
             .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
     }
 

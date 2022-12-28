@@ -31,6 +31,17 @@ describe('Indexes', () => {
                });
     });
 
+    it('Should response a single index by yearMonth', async () => {
+        const yearmonth = 202211;
+        await
+            request(app.app)
+               .get(`/index/${yearmonth}`)
+               .then(res => {
+                    expect(res.status).toBe(200);
+                    expect(res.body.result.yearmonth).toBe(yearmonth);
+               });
+    });
+
     it('Should create a new index', async () => {
         await 
             request(app.app)
@@ -61,7 +72,7 @@ describe('Indexes', () => {
               .delete(`/indexes/${updateRequest.id}`)
               .then(res => {
                     expect(res.status).toBe(200);
-                    expect(res.body).toHaveProperty('message', 'Index successfully deleted');
+                    expect(res.body).toHaveProperty('result', 'Index successfully deleted');
               });
     });
 });
