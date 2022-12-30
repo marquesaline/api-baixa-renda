@@ -5,7 +5,8 @@ import express from 'express';
 import methodOverride from 'method-override';
 import swaggerUi from 'swagger-ui-express';
 
-import router from './routes';
+import indexRouter from './routes/index.routes';
+import calcRouter from './routes/calc.routes'; 
 import db_connection from './database/init';
 
 // const PORT = process.env.PORT || 3000;
@@ -42,21 +43,11 @@ class App {
             next();
         });
 
-        this.app.use('/', router);
+        this.app.use('/', indexRouter);
+        this.app.use('/low-income-calc', calcRouter);
         //this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
     }
 
-    // public async start() {
-    //     try {
-    //         this.app.listen(PORT, () => {
-    //             console.log(`Server listening on port ${PORT}`);
-    //         });
-    //     } catch (error) {
-    //         console.error(error);
-    //         process.exit(1);
-    //     }
-
-    // }
 }
 
 export default App;
