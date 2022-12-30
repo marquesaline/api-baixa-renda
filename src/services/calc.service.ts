@@ -1,5 +1,8 @@
 import moment from 'moment';
+
 import { Index } from '../database/models/index.model';
+import { IAccumulateIndex } from '../interfaces/index.interface';
+import { ISalary } from '../interfaces/salary.interface';
 import IndexService from './index.service';
 
 class CalcServices {
@@ -13,15 +16,15 @@ class CalcServices {
 
         let finalDate = moment(calcDate, 'DD/MM/YYYY').subtract(1, 'months').format('YYYYMM');
         let initialDate = moment(finalDate, 'YYYYMM').subtract(15, 'months').format('YYYYMM');
-        let dateCounter: any = initialDate;
+        
 
-        while(moment(dateCounter, 'YYYYMM').isSameOrBefore(finalDate, 'month')) {
+        while(moment(initialDate, 'YYYYMM').isSameOrBefore(finalDate, 'month')) {
 
-            await IndexService.getByYearMonth(parseInt(dateCounter)).then(async result => {
+            await IndexService.getByYearMonth(parseInt(initialDate)).then(async result => {
                 indexes.push(result);
             });
           
-            dateCounter = moment(dateCounter, 'YYYYMM').add(1,'months').format('YYYYMM');
+            initialDate = moment(initialDate, 'YYYYMM').add(1,'months').format('YYYYMM');
         }
 
         return indexes;
@@ -42,10 +45,7 @@ class CalcServices {
             dateCounter = moment(dateCounter, 'YYYYMM').subtract(1,'months').format('YYYYMM');
         }
 
-        console.log(accumulateIndexes);
-
         return accumulateIndexes;
-
     }
 
     async accumulationHelper(dateCounter: string, indexes: any[], accumulateIndexes: any[]) {
@@ -66,12 +66,36 @@ class CalcServices {
                 } else {
 
                     let previousIndex = accumulateIndexes[accumulateIndexes.length - 1].index;
+                    let index = (previousIndex * parseFloat(indexes[i].contributionSalariesCorrection)).toFixed(4)
                     let objIndex: any = {
                         yearmonth: indexes[i].yearmonth,
-                        index: previousIndex * parseFloat(indexes[i].contributionSalariesCorrection)
+                        index: parseFloat(index)
                     };
-
                     return objIndex;
+                }
+            }
+        }
+    }
+
+    async mometaryCorrection(salarys: Array<ISalary>, accumulateIndexes: Array<IAccumulateIndex>) {
+
+        let adjustedSalarys = [];
+
+        for(let i = 0; i < salarys.length; i++) {
+            let index = await this.monetaryHelper(salarys[i], accumulateIndexes);
+        }
+
+    }
+
+    async monetaryHelper(salary: ISalary, accumulateIndexes: Array<IAccumulateIndex>) {
+        let intSalary = parseInt(moment(salary.yearmonth, 'MM/YYYY').format('YYYYMM'));
+
+        for(let i = 0; i < accumulateIndexes.length; i++) {
+
+            if(accumulateIndexes[i].yearmonth == intSalary) {
+                let objResult = {
+                    yearmonth: salary.yearmonth,
+                    adjustedSalary: accumulateIndexes[i].index * salary.salary
                 }
             }
         }

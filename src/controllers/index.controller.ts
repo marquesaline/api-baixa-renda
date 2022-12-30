@@ -8,6 +8,7 @@ import Helper from '../utils/helper';
 class IndexController {
 
     async getAll(req: Request, res: Response) {
+
         IndexServices.getAll()
             .then(indexes => Helper.sendResponse(res, StatusCodes.OK, indexes))
             .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
@@ -15,7 +16,6 @@ class IndexController {
 
     async getById(req: Request, res: Response) {
         const { id } = req.params;
-
 
         IndexServices.getById(parseInt(id))
             .then(index => Helper.sendResponse(res, StatusCodes.OK, index))
@@ -56,9 +56,6 @@ class IndexController {
             .then(index => Helper.sendResponse(res, StatusCodes.OK, index))
             .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
     }
-
-    
-
 }
 
 export default new IndexController();
