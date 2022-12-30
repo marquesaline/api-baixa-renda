@@ -72,6 +72,10 @@ typings/
 .env
 .env.test
 
+
+# ignore schemas
+/database/schemas
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
