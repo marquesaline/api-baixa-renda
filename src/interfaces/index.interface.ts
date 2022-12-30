@@ -13,3 +13,8 @@ export interface IndexAttributes {
 export interface IndexInput extends Optional<IndexAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
 export interface IndexOuput extends Required<IndexAttributes> {}
+
+export interface IAccumulateIndex{
+    yearmonth: number;
+    index: number;
+}

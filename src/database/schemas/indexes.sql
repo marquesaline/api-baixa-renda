@@ -1,0 +1,9 @@
+CREATE TABLE `Indexes` (
+  `id` int(11) NOT NULL,
+  `year` int(11) DEFAULT NULL,
+  `month` int(11) DEFAULT NULL,
+  `yearmonth` int(11) DEFAULT NULL,
+  `contributionSalariesCorrection` varchar(255) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

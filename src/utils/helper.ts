@@ -10,6 +10,17 @@ class Helper {
                 result: data
             });
     }
+
+    sendResponseCalc = (res: Response, statusCode: number, arrestYear: number, average: any, incomeLimit: string, lowIncome: boolean) => {
+        res
+           .status(statusCode)
+           .json({
+               media_salarios: average,
+               ano_prisao: arrestYear,
+               valor_limite: incomeLimit,
+               baixa_renda: lowIncome
+           });
+    }
 }
 
 export default new Helper();
