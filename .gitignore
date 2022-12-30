@@ -74,7 +74,7 @@ typings/
 
 
 # ignore 
-*.sql
+schema_indexes.sql
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

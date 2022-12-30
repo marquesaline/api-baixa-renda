@@ -20,7 +20,7 @@ class IndexServices {
             const index = await Index.findOne({ where: { id } });
 
             if(!index) {
-                return 'Index not found';
+                return 'Índice não encontrado';
             }
 
             const updatedIndex = await index.update(data);
@@ -46,7 +46,7 @@ class IndexServices {
             const index = await Index.findOne({ where: { id } });
 
             if(!index) {
-                return 'Index not found';
+                return 'Índice não encontrado';
             }
 
             return index;
@@ -61,7 +61,7 @@ class IndexServices {
             const index = await Index.findOne({ where: { yearmonth } });
 
             if(!index) {
-                return 'Index not found';
+                return 'Índice não encontrado';
             }
             return index;
 
@@ -75,10 +75,10 @@ class IndexServices {
             const index = await Index.destroy({ where: { id } });
 
             if(!index) {
-                return 'Index not found';
+                return 'Índice não encontrado';
             }
 
-            return 'Index successfully deleted';
+            return 'Índice excluído com sucesso';
 
         } catch (error) {
             console.log(error);

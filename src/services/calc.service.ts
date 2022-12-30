@@ -11,8 +11,6 @@ class CalcServices {
 
         let indexes: (string | Index | undefined)[] = [];
 
-        // calculo média dos últimos 12 salários não superiores a um período de 15 meses
-        // cumulação o último salário multiplicado pelo anterior e assim sucessivamente
 
         let finalDate = moment(calcDate, 'DD/MM/YYYY').subtract(1, 'months').format('YYYYMM');
         let initialDate = moment(finalDate, 'YYYYMM').subtract(15, 'months').format('YYYYMM');
@@ -77,29 +75,54 @@ class CalcServices {
         }
     }
 
-    async mometaryCorrection(salarys: Array<ISalary>, accumulateIndexes: Array<IAccumulateIndex>) {
+    async mometaryCorrectionOfSalaries(salaries: Array<ISalary>, accumulateIndexes: Array<IAccumulateIndex>) {
 
-        let adjustedSalarys = [];
+        let adjustedSalaries = [];
 
-        for(let i = 0; i < salarys.length; i++) {
-            let index = await this.monetaryHelper(salarys[i], accumulateIndexes);
+        for(let i = 0; i < salaries.length; i++) {
+            let salary = await this.monetaryHelper(salaries[i], accumulateIndexes);
+            adjustedSalaries.push(salary);
         }
+
+        return adjustedSalaries;
 
     }
 
     async monetaryHelper(salary: ISalary, accumulateIndexes: Array<IAccumulateIndex>) {
-        let intSalary = parseInt(moment(salary.yearmonth, 'MM/YYYY').format('YYYYMM'));
+        let yearMonthSalary = parseInt(moment(salary.yearmonth, 'MM/YYYY').format('YYYYMM'));
 
         for(let i = 0; i < accumulateIndexes.length; i++) {
 
-            if(accumulateIndexes[i].yearmonth == intSalary) {
+            if(accumulateIndexes[i].yearmonth == yearMonthSalary) {
+
+                let salaryAdjusted = (accumulateIndexes[i].index * salary.salary).toFixed(2);
                 let objResult = {
                     yearmonth: salary.yearmonth,
-                    adjustedSalary: accumulateIndexes[i].index * salary.salary
+                    adjustedSalary: parseFloat(salaryAdjusted)
                 }
+
+                return objResult;
             }
         }
     }
+
+    async averageSalaries(adjustedSalaries: Array<any>) {
+        let sumSalaries = 0;
+        let counter = 0;
+
+        for(let i = 0; i < adjustedSalaries.length; i++) {
+            sumSalaries += parseFloat(adjustedSalaries[i].adjustedSalary);
+            counter++;
+        }
+        console.log(sumSalaries);
+        console.log(counter);
+        let average = parseFloat((sumSalaries / counter).toFixed(2));
+        console.log(average);
+
+        return average;
+    }
+
+
 }   
 
 export default new CalcServices();
