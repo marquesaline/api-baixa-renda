@@ -3,24 +3,37 @@ import { StatusCodes } from 'http-status-codes';
 import moment from 'moment';
 
 import Helper from '../utils/helper';
-import CalcServices from '../services/calc.service';
+import Validator from '../utils/validator';
+import CalculationServices from '../services/calculation.service';
 import IncomeLimitServices from '../services/income_limit.service';
 
 class CalcController {
 
     async low_income_calc(req: Request, res: Response) {
+
+        await Validator.validateRequest(req.body).then(result => {
+            console.log(result);
+            if(result.isThereError == true) {
+                Helper.sendResponseError(
+                    res,
+                    result.statusCode,
+                    result.error
+                )
+            } 
+           
+        });
         
         let salaries = req.body.salaries;
         let calcDate = req.body.calcDate;
         let arrestDate = moment(req.body.arrestDate, 'DD/MM/YYYY').format('YYYY');
 
-        let indexes = await CalcServices.getIndexesOfPeriodToCalc(calcDate);
+        let indexes = await CalculationServices.getIndexesOfPeriodToCalc(calcDate);
        
-        let accumulateIndexes = await CalcServices.accumulateIndexes(indexes, calcDate);
+        let accumulateIndexes = await CalculationServices.accumulateIndexes(indexes, calcDate);
 
-        let adjustedSalaries = await CalcServices.mometaryCorrectionOfSalaries(salaries, accumulateIndexes);
+        let adjustedSalaries = await CalculationServices.mometaryCorrectionOfSalaries(salaries, accumulateIndexes);
 
-        let averageSalaries = await CalcServices.averageSalaries(adjustedSalaries);
+        let averageSalaries = await CalculationServices.averageSalaries(adjustedSalaries);
 
         await IncomeLimitServices.checkIfLowIncome(averageSalaries, parseInt(arrestDate))
             .then(result => Helper.sendResponseCalc(

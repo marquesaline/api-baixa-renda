@@ -6,7 +6,7 @@ import methodOverride from 'method-override';
 import swaggerUi from 'swagger-ui-express';
 
 import indexRouter from './routes/index.routes';
-import calcRouter from './routes/calc.routes'; 
+import calculationRouter from './routes/calculation.routes'; 
 import db_connection from './database/init';
 
 // const PORT = process.env.PORT || 3000;
@@ -44,7 +44,7 @@ class App {
         });
 
         this.app.use('/', indexRouter);
-        this.app.use('/low-income-calc', calcRouter);
+        this.app.use('/low-income-calc', calculationRouter);
         //this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
     }
 
