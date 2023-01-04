@@ -12,7 +12,6 @@ class Validator {
         }
     
         await this.validateNotUndefined(reqBody).then(result => {
-            console.log(result)
                 if(result != undefined) {
                     validatorResult.statusCode = 400,
                     validatorResult.isThereError = true,

@@ -11,40 +11,44 @@ class CalcController {
 
     async low_income_calc(req: Request, res: Response) {
 
-        await Validator.validateRequest(req.body).then(result => {
-            console.log(result);
+        await Validator.validateRequest(req.body).then(async result => {
+
             if(result.isThereError == true) {
-                Helper.sendResponseError(
+
+                return Helper.sendResponseError(
                     res,
                     result.statusCode,
+                    result.isThereError,
                     result.error
                 )
-            } 
-           
+                
+            } else {
+
+                let salaries = req.body.salaries;
+                let calcDate = req.body.calcDate;
+                let arrestDate = moment(req.body.arrestDate, 'DD/MM/YYYY').format('YYYY');
+
+                let indexes = await CalculationServices.getIndexesOfPeriodToCalc(calcDate);
+            
+                let accumulateIndexes = await CalculationServices.accumulateIndexes(indexes, calcDate);
+
+                let adjustedSalaries = await CalculationServices.mometaryCorrectionOfSalaries(salaries, accumulateIndexes);
+
+                let averageSalaries = await CalculationServices.averageSalaries(adjustedSalaries);
+
+                await IncomeLimitServices.checkIfLowIncome(averageSalaries, parseInt(arrestDate)).then(result => Helper.sendResponseCalc(
+                    res,
+                    StatusCodes.OK,
+                    parseInt(arrestDate),
+                    averageSalaries,
+                    result!.incomeLimit,
+                    result!.lowIncome
+                        
+                )).catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
+            }
+                
         });
         
-        let salaries = req.body.salaries;
-        let calcDate = req.body.calcDate;
-        let arrestDate = moment(req.body.arrestDate, 'DD/MM/YYYY').format('YYYY');
-
-        let indexes = await CalculationServices.getIndexesOfPeriodToCalc(calcDate);
-       
-        let accumulateIndexes = await CalculationServices.accumulateIndexes(indexes, calcDate);
-
-        let adjustedSalaries = await CalculationServices.mometaryCorrectionOfSalaries(salaries, accumulateIndexes);
-
-        let averageSalaries = await CalculationServices.averageSalaries(adjustedSalaries);
-
-        await IncomeLimitServices.checkIfLowIncome(averageSalaries, parseInt(arrestDate))
-            .then(result => Helper.sendResponseCalc(
-                res,
-                StatusCodes.OK,
-                parseInt(arrestDate),
-                averageSalaries,
-                result!.incomeLimit,
-                result!.lowIncome
-                
-            )).catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
     }
 
 }

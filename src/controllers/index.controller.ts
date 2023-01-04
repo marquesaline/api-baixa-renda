@@ -35,7 +35,7 @@ class IndexController {
         const index: IndexInput = req.body;
 
         IndexServices.create(index)
-           .then(index => Helper.sendResponse(res, StatusCodes.CREATED, index, 'Índice criado com sucesso!'))
+           .then(index => Helper.sendResponse(res, StatusCodes.CREATED, index, 'Índice criado com sucesso'))
            .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
     }
 
@@ -44,7 +44,7 @@ class IndexController {
         const index: IndexInput = req.body;
 
         IndexServices.update(parseInt(id), index)
-            .then(index => Helper.sendResponse(res, StatusCodes.ACCEPTED, index, 'Índice atualizado com sucesso!'))
+            .then(index => Helper.sendResponse(res, StatusCodes.ACCEPTED, index, 'Índice atualizado com sucesso'))
             .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
 
     }
@@ -53,7 +53,7 @@ class IndexController {
         const { id } = req.params;
 
         IndexServices.delete(parseInt(id))
-            .then(index => Helper.sendResponse(res, StatusCodes.OK, index))
+            .then(index => Helper.sendResponse(res, StatusCodes.OK, index, 'Índces excluído com sucesso'))
             .catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
     }
 }

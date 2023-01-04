@@ -22,11 +22,12 @@ class Helper {
            });
     }
 
-    sendResponseError = (res: Response, statusCode: number, error: any) => {
+    sendResponseError = (res: Response, statusCode: number, error: boolean, message: string) => {
         res
            .status(statusCode)
            .json({
-               erro: error
+                erro: error,
+                mensagem: message
            });
     }
 }
