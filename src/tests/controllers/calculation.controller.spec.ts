@@ -1,6 +1,12 @@
 import request from 'supertest';
 import App from '../../app';
-import { goodRequest, requestWithoutCalcDate } from '../mocks/calculation.mock';
+import { 
+    goodRequest, 
+    requestWithOneSalary, 
+    requestWithoutArrestDate, 
+    requestWithoutCalcDate, 
+    requestWithoutSalary
+} from '../mocks/calculation.mock';
 
 let app = new App();
 
@@ -18,7 +24,7 @@ describe('Low income calculation', () => {
                 });
     });
 
-    it('Should return a error', async () => {
+    it('Should return a error. Reason: calculation date not informed', async () => {
         await 
             request(app.app)
                 .post('/low-income-calc')
@@ -27,6 +33,42 @@ describe('Low income calculation', () => {
                     expect(res.status).toBe(400);
                     expect(res.body.erro).toBeTruthy();
                     expect(res.body).toHaveProperty('mensagem', 'A data do cálculo deve ser informada')
+                });
+    });
+
+    it('Should return a error. Reason: arrest date not informed', async () => {
+        await 
+            request(app.app)
+                .post('/low-income-calc')
+                .send(requestWithoutArrestDate)
+                .then(res => {
+                    expect(res.status).toBe(400);
+                    expect(res.body.erro).toBeTruthy();
+                    expect(res.body).toHaveProperty('mensagem', 'A data da prisão deve ser informada')
+                });
+    });
+
+    it('Should return a error. Reason: salary not informed', async () => {
+        await 
+            request(app.app)
+                .post('/low-income-calc')
+                .send(requestWithoutSalary)
+                .then(res => {
+                    expect(res.status).toBe(400);
+                    expect(res.body.erro).toBeTruthy();
+                    expect(res.body).toHaveProperty('mensagem', 'Pelo menos um salário deve ser informado')
+                });
+    });
+
+    it('Should calculate low income', async () => {
+        await 
+            request(app.app)
+                .post('/low-income-calc')
+                .send(requestWithOneSalary)
+                .then(res => {
+                    expect(res.status).toBe(200);
+                    //expect(res.body.baixa_renda).toBeFalsy();
+                    expect(res.body).toHaveProperty('media_salarios')
                 });
     });
 
