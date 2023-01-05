@@ -21,8 +21,17 @@ class Validator {
                 }
         });
 
+        await this.validateArrestAndCalcDate(reqBody).then(result => {
+            if(result != undefined) {
+                validatorResult.statusCode = 400,
+                validatorResult.isThereError = true,
+                validatorResult.error = result
+               
+                return validatorResult;
+            }
+        });
+
         return validatorResult;
-      
     }
 
     async validateNotUndefined(reqBody: any) {
@@ -40,13 +49,13 @@ class Validator {
     }
 
 
-    async validateDates(calcDate: string, arrestDate: string) {
+    async validateArrestAndCalcDate(reqBody: any) {
 
-        let calculationDate = moment(calcDate, 'DD/MM/YYYY');
-        let prisonDate = moment(arrestDate, 'DD/MM/YYYY');
+        let calculationDate = moment(reqBody.calcDate, 'DD/MM/YYYY');
+        let prisonDate = moment(reqBody.arrestDate, 'DD/MM/YYYY');
 
         if(moment(calculationDate).isBefore(prisonDate)) {
-            return 
+            return 'A data do cálculo deve ser igual ou posterior a data da prisão';
         }
     }
 }
