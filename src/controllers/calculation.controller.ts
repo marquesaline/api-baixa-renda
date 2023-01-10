@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import moment from 'moment';
 
 import Helper from '../utils/helper';
-import Validator from '../utils/validator';
+import DatesValidator from '../utils/dates_validator';
 import CalculationServices from '../services/calculation.service';
 import IncomeLimitServices from '../services/income_limit.service';
 
@@ -11,7 +11,7 @@ class CalcController {
 
     async low_income_calc(req: Request, res: Response) {
 
-        await Validator.validateRequest(req).then(async result => {
+        await DatesValidator.validateRequest(req).then(async result => {
 
             if(result.isThereError == true) {
 
@@ -23,7 +23,7 @@ class CalcController {
                 )
 
             } else {
-                
+
                 let salaries = req.body.salaries;
                 let calcDate = req.body.calcDate;
                 let arrestDate = moment(req.body.arrestDate, 'DD/MM/YYYY').format('YYYY');

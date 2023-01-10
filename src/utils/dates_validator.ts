@@ -2,7 +2,7 @@ import { Request } from 'express';
 import moment, { months } from 'moment';
 import Helper from './helper';
 
-class Validator {
+class DatesValidator {
 
     async validateRequest(req: Request) {
         let validatorResult = {
@@ -98,4 +98,4 @@ class Validator {
     }
 }
 
-export default new Validator();
+export default new DatesValidator();
