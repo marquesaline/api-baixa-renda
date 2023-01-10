@@ -3,6 +3,7 @@ import App from '../../app';
 import { 
     goodRequest, 
     requestCalcDateBeforeArrestDate, 
+    requestSalaryDateAfterArrestDate, 
     requestWithOneSalary, 
     requestWithoutArrestDate, 
     requestWithoutCalcDate, 
@@ -72,7 +73,7 @@ describe('Low income calculation', () => {
                 });
     });
 
-    it('Should return a error. Reason: salary not informed', async () => {
+    it('Should return a error. Reason: Calculation date prior to arrest date', async () => {
         await 
             request(app.app)
                 .post('/low-income-calc')
@@ -81,6 +82,18 @@ describe('Low income calculation', () => {
                     expect(res.status).toBe(400);
                     expect(res.body.erro).toBeTruthy();
                     expect(res.body).toHaveProperty('mensagem', 'A data do cálculo deve ser igual ou posterior a data da prisão')
+                });
+    });
+
+    it('Should return a error. Reason: There is an accrual salary in the same month as the date of arrest', async () => {
+        await 
+            request(app.app)
+                .post('/low-income-calc')
+                .send(requestSalaryDateAfterArrestDate)
+                .then(res => {
+                    expect(res.status).toBe(400);
+                    expect(res.body.erro).toBeTruthy();
+                    expect(res.body).toHaveProperty('mensagem', 'Todos os salários devem ser anteriores a data da prisão')
                 });
     });
 
