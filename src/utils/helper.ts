@@ -21,6 +21,15 @@ class Helper {
                baixa_renda: lowIncome
            });
     }
+
+    sendResponseError = (res: Response, statusCode: number, error: boolean, message: string) => {
+        res
+           .status(statusCode)
+           .json({
+                erro: error,
+                mensagem: message
+           });
+    }
 }
 
 export default new Helper();

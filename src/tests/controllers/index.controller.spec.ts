@@ -50,7 +50,7 @@ describe('Indexes', () => {
                .then(res => {
                     expect(res.status).toBe(201);
                     expect(res.body.result.id).toBe(goodRequest.id);
-                    expect(res.body).toHaveProperty('message', 'Index successfully created');
+                    expect(res.body).toHaveProperty('message', 'Índice criado com sucesso');
                });
     });
 
@@ -62,7 +62,7 @@ describe('Indexes', () => {
               .then(res => {
                     expect(res.status).toBe(202);
                     expect(res.body.result.id).toBe(updateRequest.id);
-                    expect(res.body).toHaveProperty('message', 'Index successfully updated');
+                    expect(res.body).toHaveProperty('message', 'Índice atualizado com sucesso');
               });
     });
 
@@ -72,7 +72,7 @@ describe('Indexes', () => {
               .delete(`/indexes/${updateRequest.id}`)
               .then(res => {
                     expect(res.status).toBe(200);
-                    expect(res.body).toHaveProperty('result', 'Index successfully deleted');
+                    expect(res.body).toHaveProperty('result', 'Índice excluído com sucesso');
               });
     });
 });

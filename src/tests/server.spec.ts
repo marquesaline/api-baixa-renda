@@ -17,7 +17,7 @@ describe('App', () => {
     it('Should response on port 3000', async ()=> {
         await 
             request(app.app)
-                .get('/')
+                .get('/indexes')
                 .then(res => {
                     expect(res.status).toBe(200);
                 });

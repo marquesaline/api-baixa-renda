@@ -5,13 +5,11 @@ import { IAccumulateIndex } from '../interfaces/index.interface';
 import { ISalary } from '../interfaces/salary.interface';
 import IndexService from './index.service';
 
-class CalcServices {
+class CalculationServices {
 
     async getIndexesOfPeriodToCalc(calcDate: string) {
 
         let indexes: (string | Index | undefined)[] = [];
-
-
         let finalDate = moment(calcDate, 'DD/MM/YYYY').subtract(1, 'months').format('YYYYMM');
         let initialDate = moment(finalDate, 'YYYYMM').subtract(15, 'months').format('YYYYMM');
         
@@ -114,10 +112,7 @@ class CalcServices {
             sumSalaries += parseFloat(adjustedSalaries[i].adjustedSalary);
             counter++;
         }
-        console.log(sumSalaries);
-        console.log(counter);
         let average = parseFloat((sumSalaries / counter).toFixed(2));
-        console.log(average);
 
         return average;
     }
@@ -125,4 +120,4 @@ class CalcServices {
 
 }   
 
-export default new CalcServices();
+export default new CalculationServices();
