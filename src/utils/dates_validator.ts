@@ -12,7 +12,7 @@ class DatesValidator {
         }
         
     
-        await this.validateNotUndefined(req.body).then(result => {
+        await this.ifNotUndefined(req.body).then(result => {
             
             if(result != undefined) {
                 validatorResult.statusCode = 400,
@@ -26,7 +26,7 @@ class DatesValidator {
 
         if(validatorResult.isThereError != true) {
             
-            await this.validateArrestAndCalcDate(req.body).then(result => {
+            await this.ifArrestDateBeforeCalcDate(req.body).then(result => {
                 if(result != undefined) {
                     validatorResult.statusCode = 400,
                     validatorResult.isThereError = true,
@@ -39,7 +39,7 @@ class DatesValidator {
         }
         if(validatorResult.isThereError != true) {
             
-            await this.validateSalariesDate(req.body).then(result => {
+            await this.ifSalariesDatesBeforeArrestDate(req.body).then(result => {
                 if(result != undefined) {
                     validatorResult.statusCode = 400,
                     validatorResult.isThereError = true,
@@ -54,7 +54,7 @@ class DatesValidator {
         return validatorResult;
     }
 
-    async validateNotUndefined(body: any) {
+    async ifNotUndefined(body: any) {
 
         if(!body.hasOwnProperty('calcDate')) {
             return 'A data do cálculo deve ser informada';
@@ -69,7 +69,7 @@ class DatesValidator {
     }
 
 
-    async validateArrestAndCalcDate(body: any) {
+    async ifArrestDateBeforeCalcDate(body: any) {
 
         let calculationDate = moment(body.calcDate, 'DD/MM/YYYY');
         let prisonDate = moment(body.arrestDate, 'DD/MM/YYYY');
@@ -79,7 +79,7 @@ class DatesValidator {
         }
     }
 
-    async validateSalariesDate(body: any) {
+    async ifSalariesDatesBeforeArrestDate(body: any) {
 
         let salaries = body.salaries;
         let arrestDate = moment(body.arrestDate, 'DD/MM/YYYY');
