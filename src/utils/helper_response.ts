@@ -1,6 +1,6 @@
 import { Response } from 'express';
 
-class Helper {
+class HelperResponse {
 
     sendResponse = (res: Response, statusCode: number, data?: any, message?: string) => {
         res
@@ -32,4 +32,4 @@ class Helper {
     }
 }
 
-export default new Helper();
+export default new HelperResponse();

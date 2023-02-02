@@ -2,10 +2,11 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import moment from 'moment';
 
-import Helper from '../utils/helper';
+import HelperResponse from '../utils/helper_response';
 import DatesValidator from '../utils/dates_validator';
 import CalculationServices from '../services/calculation.service';
 import IncomeLimitServices from '../services/income_limit.service';
+
 
 class CalcController {
 
@@ -15,7 +16,7 @@ class CalcController {
 
             if(result.isThereError == true) {
 
-                return Helper.sendResponseError(
+                return HelperResponse.sendResponseError(
                     res,
                     result.statusCode,
                     result.isThereError,
@@ -36,7 +37,7 @@ class CalcController {
 
                 let averageSalaries = await CalculationServices.averageSalaries(adjustedSalaries);
 
-                await IncomeLimitServices.checkIfLowIncome(averageSalaries, parseInt(arrestDate)).then(result => Helper.sendResponseCalc(
+                await IncomeLimitServices.checkIfLowIncome(averageSalaries, parseInt(arrestDate)).then(result => HelperResponse.sendResponseCalc(
                     res,
                     StatusCodes.OK,
                     parseInt(arrestDate),
@@ -44,11 +45,16 @@ class CalcController {
                     result!.incomeLimit,
                     result!.lowIncome
                         
-                )).catch(error => Helper.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
+                )).catch(error => HelperResponse.sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, error))
             }
                 
         });
         
+    }
+
+    async test(req: Request, res: Response) {
+      
+
     }
 
 }
