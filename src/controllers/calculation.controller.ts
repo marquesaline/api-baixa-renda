@@ -4,9 +4,9 @@ import moment from 'moment';
 
 import HelperResponse from '../utils/helper_response';
 import DatesValidator from '../utils/dates_validator';
+import ValidationSalariesLimits from '../utils/salaries_limits';
 import CalculationServices from '../services/calculation.service';
 import IncomeLimitServices from '../services/income_limit.service';
-
 
 class CalcController {
 
@@ -52,11 +52,5 @@ class CalcController {
         
     }
 
-    async test(req: Request, res: Response) {
-      
-
-    }
-
 }
-
 export default new CalcController();

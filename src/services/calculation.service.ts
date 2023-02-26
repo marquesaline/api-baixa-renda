@@ -37,10 +37,8 @@ class CalculationServices {
             await this.accumulationHelper(dateCounter, indexes, accumulateIndexes).then(result => {
                 accumulateIndexes.push(result);
             });
-
             dateCounter = moment(dateCounter, 'YYYYMM').subtract(1,'months').format('YYYYMM');
         }
-
         return accumulateIndexes;
     }
 
@@ -56,7 +54,6 @@ class CalculationServices {
                         yearmonth: indexes[i].yearmonth,
                         index: parseFloat(indexes[i].contributionSalariesCorrection)
                     };
-                    
                     return objIndex;
 
                 } else {
@@ -81,9 +78,7 @@ class CalculationServices {
             let salary = await this.monetaryHelper(salaries[i], accumulateIndexes);
             adjustedSalaries.push(salary);
         }
-
         return adjustedSalaries;
-
     }
 
     async monetaryHelper(salary: ISalary, accumulateIndexes: Array<IAccumulateIndex>) {
@@ -98,7 +93,6 @@ class CalculationServices {
                     yearmonth: salary.yearmonth,
                     adjustedSalary: parseFloat(salaryAdjusted)
                 }
-
                 return objResult;
             }
         }
@@ -113,11 +107,7 @@ class CalculationServices {
             counter++;
         }
         let average = parseFloat((sumSalaries / counter).toFixed(2));
-
         return average;
     }
-
-
 }   
-
 export default new CalculationServices();
